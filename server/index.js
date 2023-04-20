@@ -66,7 +66,6 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
-  console.log(token);
 
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET_KEY, {}, async (err, userData) => {
@@ -78,5 +77,9 @@ app.get("/profile", (req, res) => {
   } else {
     res.json(null);
   }
+});
+
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true);
 });
 app.listen(4000);

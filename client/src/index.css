@@ -12,6 +12,6 @@ button {
   @apply bg-gray-300;
 }
 
-button.login {
+button.primary {
   @apply w-full p-2 text-white rounded-full bg-primary;
 }

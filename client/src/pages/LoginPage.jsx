@@ -43,7 +43,7 @@ export const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="login">Login</button>
+          <button className="primary">Login</button>
           <div className="py-2 text-center text-gray-500">
             Don't have an account yet?&nbsp;
             <Link to="/register" className="text-black underline">
