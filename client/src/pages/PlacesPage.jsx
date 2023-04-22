@@ -47,16 +47,22 @@ const PlacesPage = () => {
   const uploadPhoto = async (e) => {
     const files = e.target.files;
     const data = new FormData();
-    for (const file of files) {
-      data.set("photos[", file);
+
+    for (let i = 0; i < files.length; i++) {
+      data.append("photos", files[i]);
     }
-    data.set("photos", [...files]);
-    const { data: filename } = await axios.post("/upload", data, {
+
+    const { data: filenames } = await axios.post("/upload", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
+
+    setAddedPhotos((prev) => {
+      return [...prev, ...filenames];
+    });
   };
+
   return (
     <div>
       {action !== "new" && (
@@ -123,15 +129,20 @@ const PlacesPage = () => {
             <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 ">
               {addedPhotos.length > 0 &&
                 addedPhotos.map((link) => (
-                  <div>
+                  <div className="flex h-32">
                     <img
-                      className="rounded-2xl"
+                      className="object-cover w-full rounded-2xl"
                       src={"http://localhost:4000/uploads/" + link}
                     />
                   </div>
                 ))}
-              <label className="flex items-center justify-center gap-1 p-2 text-2xl text-gray-600 bg-transparent border cursor-pointer rounded-2xl">
-                <input type="file" className="hidden" onChange={uploadPhoto} />
+              <label className="flex items-center justify-center h-32 gap-1 p-2 text-2xl text-gray-600 bg-transparent border cursor-pointer rounded-2xl">
+                <input
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={uploadPhoto}
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
