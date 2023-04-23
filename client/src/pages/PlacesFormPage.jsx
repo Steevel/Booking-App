@@ -36,8 +36,9 @@ const PlacesFormPage = () => {
     );
   };
 
-  const addNewPlace = async (e) => {
+  const savePlace = async (e) => {
     e.preventDefault();
+
     const placeData = {
       title,
       address,
@@ -49,19 +50,40 @@ const PlacesFormPage = () => {
       checkOut,
       maxGuests,
     };
-    await axios.post("/places", placeData);
-    navigate("/account/places");
+
+    if (id) {
+      // update
+      await axios.put("/places", { id, ...placeData });
+      navigate("/account/places");
+    } else {
+      // new place
+      await axios.post("/places", placeData);
+      navigate("/account/places");
+    }
   };
 
   useEffect(() => {
     if (!id) {
       return;
     }
+
+    axios.get("/places/" + id).then((response) => {
+      const { data } = response;
+      setTitle(data.title);
+      setAddress(data.address);
+      setAddedPhotos(data.photos);
+      setDescription(data.description);
+      setPerks(data.perks);
+      setExtraInfo(data.extraInfo);
+      setCheckIn(data.checkIn);
+      setCheckOut(data.checkOut);
+      setMaxGuests(data.maxGuests);
+    });
   }, [id]);
   return (
     <div>
       <AccountNav />
-      <form onSubmit={addNewPlace}>
+      <form onSubmit={savePlace}>
         {preInput("Title", "Title for your place should be short and catchy")}
         <input
           type="text"

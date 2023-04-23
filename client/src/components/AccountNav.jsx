@@ -3,17 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 
 const AccountNav = () => {
   const { pathname } = useLocation();
-  const subpage = pathname.split("/")?.[2];
-  console.log(subpage);
-  if (subpage === undefined) {
+  let subpage = pathname.split("/")?.[2];
+
+  if (subpage === "") {
     subpage = "profile";
   }
 
-  function linkClasses(type = false) {
-    // if()
-    const isActive = pathname === "/account/" && type === "profile";
+  function linkClasses(type = null) {
     let classes = "inline-flex gap-1 px-6 py-2 rounded-full";
-    if (type === false) {
+    if (type === subpage) {
       classes += " text-white bg-primary";
     } else {
       classes += " bg-gray-200";
