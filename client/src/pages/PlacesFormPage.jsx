@@ -18,6 +18,7 @@ const PlacesFormPage = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+  const [price, setPrice] = useState(100);
 
   const inputHeader = (text) => {
     return <h2 className="mt-4 text-2xl">{text}</h2>;
@@ -49,6 +50,7 @@ const PlacesFormPage = () => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     };
 
     if (id) {
@@ -78,6 +80,7 @@ const PlacesFormPage = () => {
       setCheckIn(data.checkIn);
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
+      setPrice(data.price);
     });
   }, [id]);
   return (
@@ -120,7 +123,7 @@ const PlacesFormPage = () => {
           "Check in & out time",
           "Add check in out times, remember to account for the time required for housekeeping"
         )}
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
           <div>
             <h3 className="mt-2 -mb-1">Check in time</h3>
             <input
@@ -146,6 +149,15 @@ const PlacesFormPage = () => {
               placeholder="2"
               value={maxGuests}
               onChange={(e) => setMaxGuests(e.target.value)}
+            />
+          </div>
+          <div>
+            <h3 className="mt-2 -mb-1">Price per night</h3>
+            <input
+              type="number"
+              placeholder="2"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
         </div>

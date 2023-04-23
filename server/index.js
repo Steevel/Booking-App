@@ -24,8 +24,8 @@ app.use(
 
 mongoose.connect(process.env.MONGO_URI);
 
-app.get("/test", (_req, res) => {
-  res.json("test ok");
+app.get("/", (_req, res) => {
+  res.json("<h1>TravelEase - Backend</h1>");
 });
 
 app.post("/register", async (req, res) => {
@@ -130,6 +130,7 @@ app.post("/places", (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
   jwt.verify(token, process.env.JWT_SECRET_KEY, {}, async (err, userData) => {
     if (err) throw err;
@@ -145,13 +146,14 @@ app.post("/places", (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     });
 
     res.json(placeDoc);
   });
 });
 
-app.get("/places", (req, res) => {
+app.get("/user-places", (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, process.env.JWT_SECRET_KEY, {}, async (err, userData) => {
     if (err) throw err;
@@ -181,6 +183,7 @@ app.put("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   jwt.verify(token, process.env.JWT_SECRET_KEY, {}, async (err, userData) => {
@@ -199,6 +202,7 @@ app.put("/places", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       });
       await placeDoc.save();
       res.json("ok");
@@ -206,4 +210,7 @@ app.put("/places", async (req, res) => {
   });
 });
 
+app.get("/places", async (req, res) => {
+  res.json(await Place.find());
+});
 app.listen(4000);
