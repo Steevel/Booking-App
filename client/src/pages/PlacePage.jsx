@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import BookingWidget from "../components/BookingWidget";
 
 const PlacePage = () => {
   const { id } = useParams();
@@ -136,6 +137,21 @@ const PlacePage = () => {
           </svg>
           Show more photos
         </button>
+      </div>
+
+      <div className="mt-8 gap-8 grid grid-cols-1 md:grid-cols-[2fr_1fr]">
+        <div>
+          <div className="my-4">
+            <h2 className="text-2xl semibold">Description</h2>
+            {place.description}
+          </div>
+          Check-in: {place.checkIn} <br />
+          Check-out: {place.checkOut} <br />
+          Max number of guests: {place.maxGuests}
+          <div className="text-sm text-gray-700 l-4">{place.extraInfo}</div>
+        </div>
+        <BookingWidget place={place} />
+        // TODO: 5:44:15
       </div>
     </div>
   );
